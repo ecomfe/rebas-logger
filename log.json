@@ -1,0 +1,33 @@
+{
+  "appenders": [
+    {
+      "type": "dateFile",
+      "filename": "logA",
+      "pattern": "-yyyy-MM-dd hh.log",
+      "alwaysIncludePattern": true,
+      "category": "express"
+    },
+    {
+      "type": "dateFile",
+      "filename": "logB",
+      "pattern": "-yyyy-MM-dd hh.log",
+      "alwaysIncludePattern": true,
+      "category": "app"
+    },
+    {
+      "type": "console",
+      "layout": {
+        "type": "pattern",
+        "pattern": "[%d] [%p] %c - %m"
+      }
+    }
+  ],
+
+  "levels": {
+    "[all]": "TRACE",
+    "express": "ERROR",
+    "app": "TRACE"
+  },
+
+  "cwd": "./logs"
+}
