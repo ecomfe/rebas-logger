@@ -8,11 +8,12 @@
       "category": "express"
     },
     {
-      "type": "dateFile",
-      "filename": "logB",
-      "pattern": "-yyyy-MM-dd hh.log",
-      "alwaysIncludePattern": true,
-      "category": "app"
+      "type": "file",
+      "absolute": false,
+      "filename": "log_file.log",
+      "maxLogSize": 20480,
+      "backups": 10,
+      "category": "file-logger"
     },
     {
       "type": "console",
@@ -26,8 +27,10 @@
   "levels": {
     "[all]": "TRACE",
     "express": "ERROR",
-    "app": "TRACE"
+    "file-logger": "TRACE"
   },
+
+  "replaceConsole": false,
 
   "cwd": "./logs"
 }
