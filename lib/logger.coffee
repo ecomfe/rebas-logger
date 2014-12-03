@@ -20,7 +20,7 @@ CONFIG_JSON = {
             }
         }
     ],
-    
+
     'levels': {
         '[all]': 'TRACE',
         'category': 'TRACE'
@@ -46,8 +46,9 @@ mkdirIfNotExist = ( path ) ->
     @param {string=} options.cwd 日志路径 默认为'./logs'
 ###
 exports.setConfig = ( config = CONFIG_JSON, options = {} ) ->
+    options.cwd ?= LOG_PATH
 
-    mkdirIfNotExist( options.cwd or LOG_PATH )
+    mkdirIfNotExist( options.cwd )
 
     log4js.configure( config, options )
 
@@ -59,10 +60,12 @@ exports.setConfig = ( config = CONFIG_JSON, options = {} ) ->
     @param {errorLevel=} errorLevel 可log的error_level 可与配置文件中“levels”对应
 ###
 exports.getLogger = ( category, errorLevel ) ->
-
     logger = log4js.getLogger( category )
 
     if errorLevel
         logger.setLevel( errorLevel )
 
     logger
+
+exports.connectLogger = ( logger, options ) ->
+    log4js.connectLogger( logger, options )
