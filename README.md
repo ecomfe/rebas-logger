@@ -34,6 +34,21 @@ npm install
     * *category* **{string=}** log分类 可与配置文件中“appenders.category”对应
     * *errorLevel* **{errorLevel=}** 可log的error_level 可与配置文件中“levels”对应
 
+#### expressLogger()
+
+通过express.use()加载log模块
+
+```javascript
+var express = require('express');
+var logger = require('rebas-logger')
+
+app = express();
+logger.init();
+
+app.use(logger.expressLogger())
+```
+
+
 ### 配置文件详解
 JSON格式，基于log4js的配置文件，做了字段扩展。
 

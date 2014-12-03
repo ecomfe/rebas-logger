@@ -20,9 +20,13 @@ LOG_EXPRESS = {
     'type': 'file'
     'filename': 'express-log.log'
     'category': LOG_EXPRESS_CATEGORY
-    "maxLogSize": 2048
+    "maxLogSize": 2048000
 }
 
+###
+    初始化
+    @param {string=} filename 配置文件路径
+###
 exports.init = ( filename ) ->
     conf = loadConfigurationFile( filename ) or {}
     conf.appenders ?= []
@@ -36,6 +40,11 @@ exports.init = ( filename ) ->
 
     logger.setConfig( conf, options )
 
+###
+    Logger实例
+    @param {string=} category log分类 可与配置文件中“appenders.category”对应
+    @param {errorLevel=} errorLevel 可log的error_level 可与配置文件中“levels”对应
+###
 exports.getLogger = ( options = {} ) ->
     if typeof options is 'string'
         errorLevel = options
@@ -48,5 +57,9 @@ exports.getLogger = ( options = {} ) ->
 
     logger.getLogger( options.category, options.errorLevel )
 
+###
+    Express log模块
+    通过express.use()加载log模块
+###
 exports.expressLogger = () ->
     logger.connectLogger( logger.getLogger( LOG_EXPRESS_CATEGORY ), {level: 'auto'} )
