@@ -1,16 +1,21 @@
 log = require( '../index' )
 
+#log.init( 'log.json' )
+#log.init()
 
-log.init( 'log.json' )
+# 使用指定分类的log
+logger = log.getLogger('express-log')
 
-logger = log.getLogger( {
-    category: 'express'
-} )
+# 使用内置的log，无需指定分类名
 anotherLogger = log.getLogger()
+
+# 指定log的category和errorLevel
 fileLogger = log.getLogger( {
     category: 'file-logger'
     errorLevel: 'INFO'
 } )
+
+anotherFileLogger = log.getLogger('file-logger-2')
 
 logger.trace( 'Entering %d cheese %d testing', 1, 2 )
 logger.debug( 'Got cheese.' )
@@ -30,3 +35,10 @@ fileLogger.info( 'Cheese is Gouda.' )
 fileLogger.warn( 'Cheese is quite smelly.' )
 fileLogger.error( 'Cheese is too ripe!' )
 fileLogger.fatal( 'Cheese was breeding ground for listeria.' )
+
+anotherFileLogger.trace( 'Entering %s cheese %s testing', 'A', 'for' )
+anotherFileLogger.debug( 'Got cheese.' )
+anotherFileLogger.info( 'Cheese is Gouda.' )
+anotherFileLogger.warn( 'Cheese is quite smelly.' )
+anotherFileLogger.error( 'Cheese is too ripe!' )
+anotherFileLogger.fatal( 'Cheese was breeding ground for listeria.' )
