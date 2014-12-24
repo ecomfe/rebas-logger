@@ -11,20 +11,23 @@ LOG_ERR_LEVEL = 'TRACE'
 LOG_USER = {
     'type': 'dateFile'
     'filename': 'log'
-    'pattern': '-yyyy-MM-dd hh.log'
+    'pattern': '-yyyy-MM-dd-hh.log'
     'alwaysIncludePattern': true
     'category': LOG_CATEGORY
 }
 
 LOG_EXPRESS = {
     'type': 'file'
-    'filename': 'express-log.log'
+    'filename': 'core.log'
     'category': LOG_EXPRESS_CATEGORY
-    "maxLogSize": 2048000
 }
 
 LOG_CONSOLE = {
     'type': 'console'
+    'layout': {
+        'type': 'pattern'
+        'pattern': '[%d] [%p] %c %m'
+    }
 }
 
 initialized = false
@@ -39,9 +42,9 @@ exports.init = ( filename ) ->
 
     conf = loadConfigurationFile( filename ) or {}
     conf.appenders ?= []
-    conf.appenders.push(LOG_USER)
-    conf.appenders.push(LOG_EXPRESS)
-    conf.appenders.push(LOG_CONSOLE)
+    conf.appenders.push( LOG_USER )
+    conf.appenders.push( LOG_EXPRESS )
+    conf.appenders.push( LOG_CONSOLE )
 
     if conf and conf.cwd
         options = {

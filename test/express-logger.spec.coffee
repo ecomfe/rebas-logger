@@ -2,7 +2,7 @@
 logger = require('../index')
 express = require("express")
 app = express()
-logger.init()
+#logger.init()
 
 # config
 ###
