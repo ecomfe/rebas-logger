@@ -1,0 +1,16 @@
+{
+  "appenders": [
+    {
+      "type": "file",
+      "absolute": false,
+      "filename": "log_file_2.log",
+      "maxLogSize": 20480,
+      "backups": 10,
+      "category": "file-logger-2"
+    }
+  ],
+
+  "levels": {
+    "file-logger-2": "TRACE"
+  }
+}

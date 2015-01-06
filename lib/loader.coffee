@@ -1,57 +1,78 @@
 _fs = require( 'fs' )
+_ = require( 'lodash' )
 logger = require( './logger' )
 
 loadConfigurationFile = ( filename ) ->
     if filename
-        JSON.parse( _fs.readFileSync( filename, "utf8" ) )
+        try
+            JSON.parse( _fs.readFileSync( filename, "utf8" ) )
+        catch e
 
 LOG_CATEGORY = 'log'
 LOG_EXPRESS_CATEGORY = 'express-log'
 LOG_ERR_LEVEL = 'TRACE'
-LOG_USER = {
-    'type': 'dateFile'
-    'filename': 'log'
-    'pattern': '-yyyy-MM-dd-hh.log'
-    'alwaysIncludePattern': true
-    'category': LOG_CATEGORY
-}
-
-LOG_EXPRESS = {
-    'type': 'file'
-    'filename': 'core.log'
-    'category': LOG_EXPRESS_CATEGORY
-}
-
-LOG_CONSOLE = {
-    'type': 'console'
-    'layout': {
-        'type': 'pattern'
-        'pattern': '[%d] [%p] %c %m'
-    }
-}
 
 initialized = false
+
+configs = {
+    appenders: [
+        {
+            'type': 'dateFile'
+            'filename': 'log'
+            'pattern': '-yyyy-MM-dd-hh.log'
+            'alwaysIncludePattern': true
+            'category': LOG_CATEGORY
+        }
+        {
+            'type': 'file'
+            'filename': 'core.log'
+            'category': LOG_EXPRESS_CATEGORY
+        }
+        {
+            'type': 'console'
+            'layout': {
+                'type': 'pattern'
+                'pattern': '[%d] [%p] %c %m'
+            }
+        }
+    ],
+    levels: {},
+    replaceConsole: false
+}
 
 ###
     初始化
     @param {string=} filename 配置文件路径
 ###
-exports.init = ( filename ) ->
+initConfig = () ->
     if initialized
         return
 
+    exports.setConfig()
+
+###
+    设置配置文件
+    增量添加的方式增加配置项
+###
+exports.setConfig = ( filename ) ->
     conf = loadConfigurationFile( filename ) or {}
-    conf.appenders ?= []
-    conf.appenders.push( LOG_USER )
-    conf.appenders.push( LOG_EXPRESS )
-    conf.appenders.push( LOG_CONSOLE )
 
-    if conf and conf.cwd
-        options = {
-            cwd: conf.cwd
-        }
+    # 增量合并配置
+    configs.appenders = configs.appenders.concat( conf.appenders ?= [] )
 
-    logger.setConfig( conf, options )
+    configs.levels = _.merge(configs.levels, conf.levels ?= {})
+    configs.replaceConsole = conf.replaceConsole ?= false
+
+    options = {}
+
+    if conf.cwd
+        configs.cwd = conf.cwd
+
+    if configs.cwd
+        options.cwd = configs.cwd
+
+
+    logger.setConfig( _.cloneDeep(configs), options )
 
     initialized = true
 
@@ -62,8 +83,7 @@ exports.init = ( filename ) ->
     @param {string=} options.errorLevel 可log的error_level 可与配置文件中“levels”对应
 ###
 exports.getLogger = ( options = {} ) ->
-    if !initialized
-        exports.init()
+    initConfig()
 
     if typeof options is 'string'
         options = {
@@ -81,7 +101,6 @@ exports.getLogger = ( options = {} ) ->
     通过express.use()加载log模块
 ###
 exports.expressLogger = () ->
-    if !initialized
-        exports.init()
+    initConfig()
 
     logger.connectLogger( logger.getLogger( LOG_EXPRESS_CATEGORY ), {level: 'auto'} )

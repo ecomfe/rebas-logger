@@ -1,7 +1,6 @@
 log = require( '../index' )
 
-#log.init( 'log.json' )
-#log.init()
+log.setConfig( 'conf.json' )
 
 # 使用指定分类的log
 logger = log.getLogger('express-log')
@@ -14,8 +13,6 @@ fileLogger = log.getLogger( {
     category: 'file-logger'
     errorLevel: 'INFO'
 } )
-
-anotherFileLogger = log.getLogger('file-logger-2')
 
 logger.trace( 'Entering %d cheese %d testing', 1, 2 )
 logger.debug( 'Got cheese.' )
@@ -35,6 +32,11 @@ fileLogger.info( 'Cheese is Gouda.' )
 fileLogger.warn( 'Cheese is quite smelly.' )
 fileLogger.error( 'Cheese is too ripe!' )
 fileLogger.fatal( 'Cheese was breeding ground for listeria.' )
+
+
+log.setConfig( 'anotherconf.json' )
+
+anotherFileLogger = log.getLogger('file-logger-2')
 
 anotherFileLogger.trace( 'Entering %s cheese %s testing', 'A', 'for' )
 anotherFileLogger.debug( 'Got cheese.' )
