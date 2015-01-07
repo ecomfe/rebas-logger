@@ -60,7 +60,7 @@ exports.setConfig = ( filename ) ->
     # 增量合并配置
     configs.appenders = configs.appenders.concat( conf.appenders ?= [] )
 
-    configs.levels = _.merge(configs.levels, conf.levels ?= {})
+    configs.levels = _.merge( configs.levels, conf.levels ?= {} )
     configs.replaceConsole = conf.replaceConsole ?= false
 
     options = {}
@@ -72,7 +72,7 @@ exports.setConfig = ( filename ) ->
         options.cwd = configs.cwd
 
 
-    logger.setConfig( _.cloneDeep(configs), options )
+    logger.setConfig( _.cloneDeep( configs ), options )
 
     initialized = true
 
