@@ -1,6 +1,6 @@
 /**
  * @file: logger
- * @author: redmed(qiaogang@baidu.com)
+ * @author: redmed(qiaogang2003@163.com)
  * 14/11/26
  */
 
