@@ -3,7 +3,7 @@
     {
       "type": "dateFile",
       "filename": "log",
-      "pattern": "-yyyy-MM-dd hh.log",
+      "pattern": "-yyyy-MM-dd-hh.log",
       "alwaysIncludePattern": true,
       "category": "express"
     },
@@ -14,22 +14,13 @@
       "maxLogSize": 20480,
       "backups": 10,
       "category": "file-logger"
-    },
-    {
-      "type": "file",
-      "absolute": false,
-      "filename": "log_file.log",
-      "maxLogSize": 20480,
-      "backups": 10,
-      "category": "file-logger-2"
     }
   ],
 
   "levels": {
     "[all]": "TRACE",
     "express": "ERROR",
-    "file-logger": "TRACE",
-    "file-logger-2": "INFO"
+    "file-logger": "TRACE"
   },
 
   "replaceConsole": false,

@@ -1,17 +1,15 @@
-Logger
-
-一个Node层的Log模块，依赖Log4js。
-可以按照时间/文件尺寸等方式分割日志文件。
-
+rebas-logger
 ===
+
+一个Node层的Log模块，依赖[Log4js](https://github.com/nomiddlename/log4js-node)。可以按照时间/文件尺寸等方式分割日志文件。
 
 ## Installation
 
 下载模块
 ```sh
-git clone http://gitlab.baidu.com/saber/logger.git logger
-cd logger
-git checkout 'develop'
+git clone https://github.com/ecomfe/rebas-logger.git
+cd rebas-logger
+git checkout 'master'
 npm install
 ```
 ## API
@@ -20,9 +18,10 @@ npm install
 
 ### Methods
 
-#### init(filename)
+#### setConfig(filename)
 
-初始化Log模块
+设置配置文件，以增量添加的方式增加配置项
+
 * *filename* **{string=}** 设置全局配置文件路径
 
 
@@ -34,18 +33,35 @@ npm install
     * *category* **{string=}** log分类 可与配置文件中“appenders.category”对应
     * *errorLevel* **{errorLevel=}** 可log的error_level 可与配置文件中“levels”对应
 
+```javascript
+var log = require('rebas-logger');
+
+// 如果无配置文件，则不需要调用
+log.setConfig('config.json');
+
+var logger = logger.getLogger();
+
+logger.trace('message...');
+logger.debug('message...');
+logger.info('message...');
+logger.warn('message...');
+logger.error('message...');
+logger.fatal('message...');
+```
+
 #### expressLogger()
 
 通过express.use()加载log模块
 
 ```javascript
 var express = require('express');
-var logger = require('rebas-logger')
+var logger = require('rebas-logger');
 
 app = express();
-logger.init();
+// 如果无配置文件，则不需要调用
+logger.setConfig('config.json');
 
-app.use(logger.expressLogger())
+app.use(logger.expressLogger());
 ```
 
 
