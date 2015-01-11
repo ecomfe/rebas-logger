@@ -1,16 +1,14 @@
-Logger
-
-一个Node层的Log模块，依赖Log4js。
-可以按照时间/文件尺寸等方式分割日志文件。
-
+rebas-logger
 ===
+
+一个Node层的Log模块，依赖[Log4js](https://github.com/nomiddlename/log4js-node)。可以按照时间/文件尺寸等方式分割日志文件。
 
 ## Installation
 
 下载模块
 ```sh
-git clone http://gitlab.baidu.com/saber/logger.git logger
-cd logger
+git clone https://github.com/ecomfe/rebas-logger.git
+cd rebas-logger
 git checkout 'master'
 npm install
 ```
