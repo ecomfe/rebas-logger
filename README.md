@@ -68,9 +68,9 @@ app.use(logger.expressLogger());
 ### 配置文件详解
 JSON格式，基于log4js的配置文件，做了字段扩展。
 
-JSON不支持注释，如果使用以下JSON，请将注释自行去掉。
+*JSON不支持注释，如果使用以下JSON，请将注释自行去掉。*
 
-```json
+```js
 {
   "appenders": [ // 添加日志输出的类型
     {
@@ -109,7 +109,7 @@ JSON不支持注释，如果使用以下JSON，请将注释自行去掉。
     "express": "ERROR",
     "app": "TRACE"
   },
-  replaceConsole: true // 替换默认console
+  "replaceConsole": true // 替换默认console
   "cwd": "./logs" // 日志文件路径
 }
 ```
